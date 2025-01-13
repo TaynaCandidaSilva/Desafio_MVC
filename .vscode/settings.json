@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "cupom",
+        "pychache",
+        "venv"
+    ],
+    "files.exclude": {
+        "**/venv": true,
+        "**/__pycache__": true,
+        "**/.pytest_cache": true
+    }
+}
