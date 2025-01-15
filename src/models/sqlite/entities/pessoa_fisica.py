@@ -1,25 +1,18 @@
-from sqlalchemy import Column, String, BIGINT, Float
+from sqlalchemy import Column, String, BIGINT, REAL
 from src.models.sqlite.settings.base import Base
+
 
 class PessoaFisica(Base):
     __tablename__ = "pessoa_fisica"
 
-    id = (Column(BIGINT, primary_key=True),)
-    renda_mensal = (Column(Float),)
-    idade = (Column(BIGINT),)
-    nome_completo = (Column(String),)
-    celular = (Column(String),)
-    email = (Column(String),)
-    categoria = (Column(String),)
-    saldo = Column(Float)
+    id = Column(BIGINT, primary_key=True)
+    renda_mensal = Column(REAL, nullable=False)
+    idade = Column(BIGINT, nullable=False)
+    nome_completo = Column(String, nullable=False)
+    celular = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    categoria = Column(String, nullable=False)
+    saldo = Column(REAL, nullable=False)
 
     def __repr__(self):
-        return (
-            f"Pessoa fisica [renda_mensal={self.renda_mensal}, 
-                idade={self.idade},
-                nome_completo={self.nome_completo},
-                celular={self.celular},
-                email={self.email},
-                categoria={self.categoria},
-                saldo={self.saldo}]"
-        )
+        return f"Nome: {self.nome_completo}, Idade: {self.idade}, Saldo: {self.saldo}"

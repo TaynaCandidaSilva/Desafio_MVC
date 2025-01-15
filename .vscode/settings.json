@@ -1,7 +1,12 @@
 {
     "cSpell.words": [
+        "criar",
         "cupom",
+        "listar",
         "pychache",
+        "sessionmaker",
+        "usuario",
+        "usuarios",
         "venv"
     ],
     "files.exclude": {
