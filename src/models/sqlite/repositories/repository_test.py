@@ -12,10 +12,3 @@ def test_list_pessoa_fisica():
     response = repo.listar_usuarios()
     print()
     print(response)
-
-
-@pytest.mark.skip(reason="interacao com o banco de dados")
-def test_delete_pessoa_fisica():
-    id = 9
-    repo = PessoaFisicaRepository(db_connection_handler)
-    repo.deletar_usuario(id)

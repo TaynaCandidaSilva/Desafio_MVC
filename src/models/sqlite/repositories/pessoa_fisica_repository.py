@@ -9,7 +9,7 @@ class PessoaFisicaRepository:
 
     def listar_usuarios(
         self,
-    ) -> List:
+    ) -> List[PessoaFisica]:
         with self.__db_connection as database:
             try:
                 pessoa_fisica = database.session.query(PessoaFisica).all()
@@ -20,16 +20,3 @@ class PessoaFisicaRepository:
 
     def criar_usuario(self):
         pass
-
-    def deletar_usuario(self, id: int):
-        with self.__db_connection as database:
-            try:
-                (
-                    database.session.query(PessoaFisica)
-                    .filter(PessoaFisica.id == id)
-                    .delete()
-                )
-                database.session.commit()
-            except Exception as exception:
-                database.session.rollback()
-                raise exception
