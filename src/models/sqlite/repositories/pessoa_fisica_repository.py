@@ -7,7 +7,7 @@ class PessoaFisicaRepository:
     def __init__(self, db_connection) -> None:
         self.__db_connection = db_connection
 
-    def listar_usuarios(
+    def listar_usuarios_pf(
         self,
     ) -> List[PessoaFisica]:
         with self.__db_connection as database:
