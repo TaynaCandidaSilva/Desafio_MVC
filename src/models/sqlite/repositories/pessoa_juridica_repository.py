@@ -8,6 +8,34 @@ class PessoaJuridicaRepository:
     def __init__(self, db_connection):
         self.__db_connection = db_connection
 
+    def criar_pessoa_juridica(
+        self,
+        faturamento: float,
+        idade: int,
+        nome_fantasia: str,
+        celular: str,
+        email_corporativo: str,
+        categoria: str,
+        saldo: float,
+    ) -> None:
+        with self.__db_connection as database:
+            try:
+                person_fisica_data = PessoaJuridica(
+                    faturamento=faturamento,
+                    idade=idade,
+                    nome_completo=nome_fantasia,
+                    celular=celular,
+                    email=email_corporativo,
+                    categoria=categoria,
+                    saldo=saldo,
+                )
+                database.session.add(person_fisica_data)
+                database.session.commit()
+
+            except Exception as exception:
+                database.session.rollback()
+                raise exception
+
     def listar_usuarios_pj(self) -> List[PessoaJuridica]:
         with self.__db_connection as database:
             try:
