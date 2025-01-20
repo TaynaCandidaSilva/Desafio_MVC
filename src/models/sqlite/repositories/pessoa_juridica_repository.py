@@ -20,16 +20,16 @@ class PessoaJuridicaRepository:
     ) -> None:
         with self.__db_connection as database:
             try:
-                person_fisica_data = PessoaJuridica(
+                person_juridica_data = PessoaJuridica(
                     faturamento=faturamento,
                     idade=idade,
-                    nome_completo=nome_fantasia,
+                    nome_fantasia=nome_fantasia,
                     celular=celular,
-                    email=email_corporativo,
+                    email_corporativo=email_corporativo,
                     categoria=categoria,
                     saldo=saldo,
                 )
-                database.session.add(person_fisica_data)
+                database.session.add(person_juridica_data)
                 database.session.commit()
 
             except Exception as exception:

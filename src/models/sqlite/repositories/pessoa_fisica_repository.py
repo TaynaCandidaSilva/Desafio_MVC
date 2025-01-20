@@ -45,6 +45,3 @@ class PessoaFisicaRepository:
 
             except NoResultFound:
                 return []
-
-    def criar_usuario(self):
-        pass
