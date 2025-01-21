@@ -1,4 +1,3 @@
-from typing import List
 from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -35,13 +34,43 @@ class PessoaFisicaRepository:
                 database.session.rollback()
                 raise exception
 
-    def listar_usuarios_pf(
-        self,
-    ) -> List[PessoaFisica]:
+    def consultar_saldo(self, nome_completo):
         with self.__db_connection as database:
             try:
-                pessoa_fisica = database.session.query(PessoaFisica).all()
-                return pessoa_fisica
+                consulta = (
+                    database.session.query(PessoaFisica)
+                    .filter_by(nome_completo=nome_completo)
+                    .first()
+                )
+                return consulta.saldo
+            except Exception as exception:
+                database.session.rollback()
+                raise exception
+
+    def sacar_dinheiro(self, pessoa_fisica, valor):
+        limite_saque = 5000
+        saldo = self.consultar_saldo(pessoa_fisica)
+        if valor <= limite_saque and valor <= saldo:
+            saldo -= valor
+            return (
+                f"Saque de R$ {valor} realizado com sucesso. Saldo restante R$ {saldo}"
+            )
+        else:
+            return "Erro: Valor de saque excede o limite ou saldo insuficiente."
+
+    def realizar_extrato(self, pessoa_fisica):
+        with self.__db_connection as database:
+            try:
+                pessoa_fisica = (
+                    database.session.query(PessoaFisica)
+                    .filter_by(nome=pessoa_fisica.nome_completo)
+                    .first()
+                )
+                return {
+                    "Nome": pessoa_fisica.nome_completo,
+                    "Saldo": pessoa_fisica.saldo,
+                    "Categoria": pessoa_fisica.categoria,
+                }
 
             except NoResultFound:
                 return []

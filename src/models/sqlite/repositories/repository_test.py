@@ -46,8 +46,16 @@ def test_criar_pessoa_juridica():
     )
 
 
+@pytest.mark.skip(reason="interacao com o banco de dados")
 def test_list_pessoa_juridica():
     repo = PessoaJuridicaRepository(db_connection_handler)
     response = repo.listar_usuarios_pj()
     print()
     print(response)
+
+
+@pytest.mark.skip(reason="interacao com o banco de dados")
+def test_consultar_saldo():
+    nome_completo = "Pedro Santos"
+    repo = PessoaFisicaRepository(db_connection_handler)
+    repo.consultar_saldo(nome_completo)
