@@ -36,11 +36,39 @@ class PessoaJuridicaRepository:
                 database.session.rollback()
                 raise exception
 
-    def listar_usuarios_pj(self) -> List[PessoaJuridica]:
+    def consultar_saldo_PJ(self, nome_fantasia) -> None:
         with self.__db_connection as database:
             try:
-                pessoa_juridica = database.session.query(PessoaJuridica).all()
-                return pessoa_juridica
+                pessoa_juridica = (
+                    database.session.query(PessoaJuridica)
+                    .filter_by(nome_fantasia=nome_fantasia)
+                    .first()
+                )
+                return pessoa_juridica.saldo
+            except Exception:
+                database.session.rollback()
+                raise Exception
 
+    def sacar_dinheiro_PJ(self, pessoa_juridica, valor):
+        saldo = self.consultar_saldo_PJ(pessoa_juridica)
+        if valor <= saldo:
+            saldo -= valor
+            return f"Saque de {valor} realizado com sucesso. Saldo restante R$ {saldo}"
+        else:
+            return f"Erro: saldo insuficiente"
+
+    def realizar_extrato_PJ(self, pessoa_juridica):
+        with self.__db_connection as database:
+            try:
+                pessoa_juridica = (
+                    database.session.query(PessoaJuridica)
+                    .filter_by(nome_fantasia=pessoa_juridica)
+                    .first()
+                )
+                return {
+                    "Nome": pessoa_juridica.nome_fantasia,
+                    "Saldo": pessoa_juridica.saldo,
+                    "Categoria": pessoa_juridica.categoria,
+                }
             except NoResultFound:
                 return []
