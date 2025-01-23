@@ -47,7 +47,7 @@ class PessoaFisicaRepository:
                 database.session.rollback()
                 raise exception
 
-    def sacar_dinheiro_PF(self, pessoa_fisica, valor):
+    def sacar_dinheiro(self, pessoa_fisica, valor):
         limite_saque = 5000
         saldo = self.consultar_saldo_PF(pessoa_fisica)
         if valor <= limite_saque and valor <= saldo:
@@ -58,7 +58,7 @@ class PessoaFisicaRepository:
         else:
             return "Erro: Valor de saque excede o limite ou saldo insuficiente."
 
-    def realizar_extrato_PF(self, pessoa_fisica):
+    def realizar_extrato(self, pessoa_fisica):
         with self.__db_connection as database:
             try:
                 pessoa_fisica = (

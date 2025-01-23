@@ -49,7 +49,7 @@ class PessoaJuridicaRepository:
                 database.session.rollback()
                 raise Exception
 
-    def sacar_dinheiro_PJ(self, pessoa_juridica, valor):
+    def sacar_dinheiro(self, pessoa_juridica, valor):
         saldo = self.consultar_saldo_PJ(pessoa_juridica)
         if valor <= saldo:
             saldo -= valor
@@ -57,7 +57,7 @@ class PessoaJuridicaRepository:
         else:
             return f"Erro: saldo insuficiente"
 
-    def realizar_extrato_PJ(self, pessoa_juridica):
+    def realizar_extrato(self, pessoa_juridica):
         with self.__db_connection as database:
             try:
                 pessoa_juridica = (

@@ -58,4 +58,4 @@ def test_list_pessoa_juridica():
 def test_consultar_saldo():
     nome_completo = "Pedro Santos"
     repo = PessoaFisicaRepository(db_connection_handler)
-    repo.consultar_saldo(nome_completo)
+    repo.consultar_saldo_PF(nome_completo)
