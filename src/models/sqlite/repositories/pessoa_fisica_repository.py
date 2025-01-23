@@ -1,8 +1,9 @@
 from src.models.sqlite.entities.pessoa_fisica import PessoaFisica
 from sqlalchemy.orm.exc import NoResultFound
+from src.models.sqlite.interfaces.cliente_repository import Cliente
 
 
-class PessoaFisicaRepository:
+class PessoaFisicaRepository(Cliente):
     def __init__(self, db_connection) -> None:
         self.__db_connection = db_connection
 
@@ -34,7 +35,7 @@ class PessoaFisicaRepository:
                 database.session.rollback()
                 raise exception
 
-    def consultar_saldo_PF(self, nome_completo):
+    def consultar_saldo(self, nome_completo):
         with self.__db_connection as database:
             try:
                 consulta = (
@@ -49,7 +50,7 @@ class PessoaFisicaRepository:
 
     def sacar_dinheiro(self, pessoa_fisica, valor):
         limite_saque = 5000
-        saldo = self.consultar_saldo_PF(pessoa_fisica)
+        saldo = self.consultar_saldo(pessoa_fisica)
         if valor <= limite_saque and valor <= saldo:
             saldo -= valor
             return (

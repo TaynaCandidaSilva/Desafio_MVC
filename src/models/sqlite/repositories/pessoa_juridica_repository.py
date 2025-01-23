@@ -1,9 +1,10 @@
 from typing import List
 from src.models.sqlite.entities.pessoa_juridica import PessoaJuridica
 from sqlalchemy.orm.exc import NoResultFound
+from src.models.sqlite.interfaces.cliente_repository import Cliente
 
 
-class PessoaJuridicaRepository:
+class PessoaJuridicaRepository(Cliente):
 
     def __init__(self, db_connection):
         self.__db_connection = db_connection
@@ -36,7 +37,7 @@ class PessoaJuridicaRepository:
                 database.session.rollback()
                 raise exception
 
-    def consultar_saldo_PJ(self, nome_fantasia) -> None:
+    def consultar_saldo(self, nome_fantasia) -> None:
         with self.__db_connection as database:
             try:
                 pessoa_juridica = (
@@ -50,7 +51,7 @@ class PessoaJuridicaRepository:
                 raise Exception
 
     def sacar_dinheiro(self, pessoa_juridica, valor):
-        saldo = self.consultar_saldo_PJ(pessoa_juridica)
+        saldo = self.consultar_saldo(pessoa_juridica)
         if valor <= saldo:
             saldo -= valor
             return f"Saque de {valor} realizado com sucesso. Saldo restante R$ {saldo}"
